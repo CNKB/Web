@@ -1,12 +1,12 @@
-import { useTranslation } from 'react-i18next';
 import DefaultContainer from '../template/DefaultContainer'
+import { Translate } from '../hook/Translator';
 
 const LoginPage = () => {
-    const { t } = useTranslation();
+    const $ = Translate();
 
     return (
         <DefaultContainer>
-            {t('translate.test')}
+            {$('translate.test', ["123"])}
         </DefaultContainer> 
     );
 }

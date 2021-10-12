@@ -1,28 +1,31 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { I18nextProvider, useTranslation } from 'react-i18next';
-import i18n from './lang/i18n'
 import './index.css';
 import LoginPage from './page/LoginPage';
 import reportWebVitals from './reportWebVitals';
+import { oc } from 'ts-optchain'
+import * as i18n from './util/i18nUtil'
 
-window.onload = () => {
-    console.log('language: ', window.navigator.language);
-    render(window.navigator.language);
+window.onload = async() => {
+    try{
+        const { result } = await i18n.getNativeInfo() 
+        const nativeLang = oc(result).language()
+ 
+        await i18n.init(nativeLang as string)
+
+        render()
+    } catch (e) {
+        console.error(e)
+    }
 }
 
-function render(language: string) {
+function render() {
     ReactDOM.render(
         <React.StrictMode>
-            <I18nextProvider i18n={i18n(language) as any}>
-                <LoginPage />
-            </I18nextProvider>
+            <LoginPage />
         </React.StrictMode>,
         document.getElementById('root')
     );
 }
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
