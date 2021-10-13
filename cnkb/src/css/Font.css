@@ -1,0 +1,25 @@
+@font-face {
+    font-family: "HeirofLightRegular";
+    font-weight: bolder;
+    src: url("../font/HeirofLightRegular.ttf"),
+        url("../font/HeirofLightRegular.woff2"),
+        url("../font/HeirofLightRegular.svgz");
+}
+
+@font-face {
+    font-family: "HeirofLightBold";
+    font-weight: 200;
+    src: url("../font/HeirofLightBold.ttf"),
+        url("../font/HeirofLightBold.woff2"),
+        url("../font/HeirofLightBold.svgz");
+}
+
+#FontRegular {
+    font-family: 'HeirofLightRegular';
+    color: white;
+}
+
+#FontBold {
+    font-family: 'HeirofLightBold';
+    color: white;
+}
