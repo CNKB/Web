@@ -2,10 +2,10 @@ import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
  
 import { LANGUAGE } from '../locale/language'
-import { DEBUG } from './config';
+import { DEBUG } from './config'
  
 async function loadLocaleMessages(currentLanguage: string) {
-    let lang;
+    let lang
     if (currentLanguage === 'en') {
         lang = 'en_US'
     } else {
@@ -15,8 +15,8 @@ async function loadLocaleMessages(currentLanguage: string) {
     const locale = await import(
         `../locale/${lang}.json`
     ).then(value => {
-		return value.default;
-	});
+		return value.default
+	})
 
     return { [currentLanguage]: locale }
 }
@@ -51,7 +51,7 @@ export const getNativeInfo = (): Promise<INativeInfoResult> => {
 	}
 
 	return new Promise((resolve): void => {
-		resolve(result);
+		resolve(result)
 	})
 }
 
@@ -64,5 +64,5 @@ export const EmptyNativeInfo: INativeInfo = {
 }
 
 export interface INativeInfoResult {
-	result: INativeInfo | null;
+	result: INativeInfo | null
 }

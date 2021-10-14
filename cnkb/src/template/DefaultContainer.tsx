@@ -1,11 +1,8 @@
-import useWindowSize from "../hook/Window";
+import useWindowSize from "../hook/Window"
+import { Props } from "../util/config"
 
-interface Props {
-	children?: any
-}
-
-const Container = ({children}: Props) => {
-	const { height, width } = useWindowSize();
+export default ({children}: Props) => {
+	const { height, width } = useWindowSize()
 
 	const style: React.CSSProperties = {
 		position: "absolute",
@@ -16,7 +13,7 @@ const Container = ({children}: Props) => {
 		transform: "translate(-50%, 0)",
 		whiteSpace: "nowrap",
 		fontSize: height * 0.012 + width * 0.008
-	};
+	}
 
 	return (
 		<>
@@ -27,7 +24,5 @@ const Container = ({children}: Props) => {
 				Copyright(C) 2021. namsic. All rights reserved
 			</div>
 		</>
-	);
+	)
 }
-
-export default Container;

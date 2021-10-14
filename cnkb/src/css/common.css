@@ -1,0 +1,11 @@
+.commonButton {
+	padding: 2px;
+	background: #3e3e3e;
+	border: 0px;
+}
+
+.commonButton:active {
+	padding: 1px;
+	background: black;
+	border: 0px;
+}

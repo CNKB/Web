@@ -1,10 +1,12 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import SignInPage from './page/SignInPage';
-import reportWebVitals from './reportWebVitals';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import './index.css'
+import reportWebVitals from './reportWebVitals'
 import { oc } from 'ts-optchain'
 import * as i18n from './util/i18nUtil'
+import { hot } from 'react-hot-loader'
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
+import SignInPage from './page/SignInPage'
 
 window.onload = async() => {
     try{
@@ -20,12 +22,19 @@ window.onload = async() => {
 }
 
 function render() {
-    ReactDOM.render(
-        <React.StrictMode>
-            <SignInPage />
-        </React.StrictMode>,
-        document.getElementById('root')
-    );
+    hot(module) (() => {
+        ReactDOM.render(
+            <React.StrictMode>
+                <BrowserRouter>
+                    <Switch>
+                        <Route path="/" component={SignInPage} />
+                        <Redirect path="*" to="/" />
+                    </Switch>
+                </BrowserRouter>
+            </React.StrictMode>,
+            document.getElementById('root')
+        )
+    })
 }
 
-reportWebVitals();
+reportWebVitals()
