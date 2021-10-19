@@ -26,22 +26,22 @@ const LobbyPage = () => {
 					title: "관리자",
 					lastPlayed: "2021.09.23",
 				};
-				setPlayers(result.data.data);
-			});
-		}
 
-		setLoading(false)
+				setPlayers(result.data.data);
+				setLoading(false);
+			})
+		}
 	}, [])
 
 	return getData("accessToken") ? (
 		<GameContainer>
-			<CommonLoader>
-				{{
-					flag: loading,
-					size: (height * 0.22 + width * 0.17) / 5,
-					element: (
-						<div>
-							<div className="center">
+			<div className="center">
+				<CommonLoader>
+					{{
+						flag: loading,
+						size: (height * 0.22 + width * 0.17) / 5,
+						element: (
+							<div>
 								{
 									players.map((player, index) => {
 										return (
@@ -89,10 +89,10 @@ const LobbyPage = () => {
 									})
 								}
 							</div>
-						</div>
-					),
-				}}
-			</CommonLoader>
+						),
+					}}
+				</CommonLoader>
+			</div>
 		</GameContainer>
 	) : (
 		<Redirect to="/sign-in" />

@@ -1,9 +1,9 @@
 import { getData, getInstance, removeData, setData } from "../util/config";
 import render from "..";
 
-const handleToken = (result: Promise<any>, self: () => Promise<any>) => {
+const handleToken = (result: Promise<any>) => {
 	result.catch((error) => {
-		if (error.response.status == 401) {
+		if (error.response.status === 401) {
 			getInstance(undefined, {
 				"refreshToken": getData("refreshToken")
 			}).get(

@@ -66,7 +66,7 @@ const SignInPage = () => {
                                 size: logoSize / 5,
                                 element: (
                                     <button className="commonButton">
-                                        <img src={GoogleSignIn} key={GoogleSignIn}
+                                        <img src={GoogleSignIn} key={GoogleSignIn} alt="signIn"
                                             onClick={() => {
                                                 setLoading(true)
                                                 signInWithRedirect(auth, provider)

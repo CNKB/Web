@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import useWindowSize from "../hook/Window";
 import DefaultContainer from "./DefaultContainer";
-import Logo from "../image/logo.png";
 import "../css/Font.css";
 
-export default ({children}: any) => {
+const GameContainer = ({children}: any) => {
 	const { height, width } = useWindowSize();
 	const [logoSize, setLogoSize] = useState(0);
 
@@ -26,3 +25,5 @@ export default ({children}: any) => {
 		</DefaultContainer>
 	)
 }
+
+export default GameContainer

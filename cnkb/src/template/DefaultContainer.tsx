@@ -1,6 +1,6 @@
 import useWindowSize from "../hook/Window"
 
-export default ({children}: any) => {
+const DefaultContainer = ({children}: any) => {
 	const { height, width } = useWindowSize()
 
 	const style: React.CSSProperties = {
@@ -25,3 +25,5 @@ export default ({children}: any) => {
 		</>
 	)
 }
+
+export default DefaultContainer

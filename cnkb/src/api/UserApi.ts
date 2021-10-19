@@ -13,7 +13,6 @@ export const signIn = (args: any) => {
 
 export const getPlayers = () => {
 	return handleToken(
-		getInstance(getData("accessToken")).get("/user/players/t"),
-		getPlayers
+		getInstance(getData("accessToken")).get("/user/players/t")
 	);
 }

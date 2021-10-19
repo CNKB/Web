@@ -15,9 +15,10 @@ const firebaseConfig = {
     appId: "1:308873332138:web:eb5a7cb3697d33d920d7d3",
     measurementId: "G-G5T4WWT9PR"
 }
+
 const app = initializeApp(firebaseConfig)
 
-export const auth = getAuth()
+export const auth = getAuth(app)
 export const provider = new GoogleAuthProvider()
 
 let instance = axios.create({
