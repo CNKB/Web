@@ -1,5 +1,7 @@
 {
 	"translation": {
-		"translate.test": "English translated {0}"
+		"translate.test": "English translated {0}",
+		"slot.empty": "Empty Slot",
+		"last_played": "Last Played"
 	}
 }

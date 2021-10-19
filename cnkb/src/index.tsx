@@ -4,9 +4,9 @@ import './index.css'
 import reportWebVitals from './reportWebVitals'
 import { oc } from 'ts-optchain'
 import * as i18n from './util/i18nUtil'
-import { hot } from 'react-hot-loader'
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
 import SignInPage from './page/SignInPage'
+import LobbyPage from './page/LobbyPage'
 
 window.onload = async() => {
     try{
@@ -21,20 +21,21 @@ window.onload = async() => {
     }
 }
 
-function render() {
-    hot(module) (() => {
-        ReactDOM.render(
-            <React.StrictMode>
-                <BrowserRouter>
-                    <Switch>
-                        <Route path="/" component={SignInPage} />
-                        <Redirect path="*" to="/" />
-                    </Switch>
-                </BrowserRouter>
-            </React.StrictMode>,
-            document.getElementById('root')
-        )
-    })
+const render = () => {
+    ReactDOM.render(
+        <React.StrictMode>
+            <BrowserRouter>
+                <Switch>
+                    <Route path="/sign-in" component={SignInPage} />
+                    <Route path="/lobby" component={LobbyPage} />
+                    <Redirect path="*" to="/sign-in" />
+                </Switch>
+            </BrowserRouter>
+        </React.StrictMode>,
+        document.getElementById("root")
+    )
 }
 
 reportWebVitals()
+
+export default render

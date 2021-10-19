@@ -1,11 +1,19 @@
-import { instance } from "../util/config"
+import { getData, getInstance } from "./../util/config";
+import handleToken from "./TokenApi";
 
-export const signIn = (email: string, provider: string) => {
-	return instance.post(
+export const signIn = (args: any) => {
+	return getInstance().post(
 		"/user/sign-in",
 		{
-			email: email,
-			provider: provider
+			email: args.email,
+			provider: args.provider
 		}
 	)
+}
+
+export const getPlayers = () => {
+	return handleToken(
+		getInstance(getData("accessToken")).get("/user/players/t"),
+		getPlayers
+	);
 }

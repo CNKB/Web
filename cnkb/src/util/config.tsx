@@ -4,7 +4,6 @@ import axios from 'axios'
 import { getAuth, GoogleAuthProvider } from "firebase/auth"
 
 export const DEBUG = true
-export let SIGNED_IN = false
 const BASE_URL = "http://127.0.0.1:8080"
 
 const firebaseConfig = {
@@ -20,53 +19,68 @@ const app = initializeApp(firebaseConfig)
 
 export const auth = getAuth()
 export const provider = new GoogleAuthProvider()
-provider.setCustomParameters({
-	'login_hint': 'user@example.com'
-})
 
-export let instance = axios.create({
+let instance = axios.create({
 	baseURL: BASE_URL,
 	timeout: 10000,
-	withCredentials: true
+	withCredentials: true,
+	headers: {
+		"Content-Type": "application/json"
+	}
 })
 
-export const setToken = (token: string) => {
-	instance = axios.create({
-		baseURL: BASE_URL,
-		timeout: 10000,
-		headers: {
-			Authorization: `Bearer ${token}`
-		},
-		withCredentials: true,	
-	})
+let lastHeaderKeys: string[] = []
 
-	SIGNED_IN = true
+export let getInstance = (token?: string | null, header?: any) => {
+	for (let key of lastHeaderKeys) {
+		delete instance.defaults.headers.common[key]
+	}
+
+	lastHeaderKeys = []
+
+	if(token) {
+		instance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+	} else {
+		delete instance.defaults.headers.common["Authorization"];
+	}
+
+	if(header) {
+		lastHeaderKeys = Object.keys(header)
+
+		for (let [key, value] of Object.entries(header)) {
+			instance.defaults.headers.common[key] = value as string
+		}
+	}
+
+	return instance
 }
 
-export const removeToken = () => {
-	instance = axios.create({
-		baseURL: BASE_URL,
-		timeout: 10000,
-		withCredentials: true
-	})
-
-	SIGNED_IN = false
-}
-
-export interface Props {
-	children?: any
-}
-
-interface CommonLoaderProps {
-	children: any
-}
-
-export const CommonLoader = ({children}: CommonLoaderProps) => {
+export const CommonLoader = ({children}: any) => {
 	return <>
-		<Loader type="Oval"
-			color="grey"
-			width={children.size}
-			height={children.size}
-		/>
+		{
+			children.flag ? (
+				<Loader type="Oval"
+					color="grey"
+					width={children.size}
+					height={children.size}
+				/>
+			) : (
+				<>
+					{children.element}
+				</>
+			)
+		}
 	</>
+}
+
+export const setData = (key: string, value: string) => {
+	window.localStorage.setItem(key, value)
+}
+
+export const getData = (key: string) => {
+	return window.localStorage.getItem(key)
+}
+
+export const removeData = (key: string) => {
+	window.localStorage.removeItem(key)
 }
