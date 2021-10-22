@@ -7,6 +7,7 @@ import * as i18n from './util/i18nUtil'
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
 import SignInPage from './page/SignInPage'
 import LobbyPage from './page/LobbyPage'
+import GamePage from './page/GamePage'
 
 window.onload = async() => {
     try{
@@ -28,6 +29,7 @@ const render = () => {
                 <Switch>
                     <Route path="/sign-in" component={SignInPage} />
                     <Route path="/lobby" component={LobbyPage} />
+                    <Route path="/game" component={GamePage} />
                     <Redirect path="*" to="/sign-in" />
                 </Switch>
             </BrowserRouter>

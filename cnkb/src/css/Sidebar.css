@@ -1,0 +1,11 @@
+.sidebar {
+	transition: transform 500ms ease-out, background-color 500ms linear;
+	float: left;
+	height: 100%;
+	padding-left: 5px;
+	border-width: 2px;
+	border-color: grey;
+	border-style: solid;
+	position: relative;
+	z-index: 10;
+}

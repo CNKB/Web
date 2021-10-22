@@ -1,0 +1,12 @@
+.panel {
+	height: 100%;
+	padding-top: 2px;
+	padding-bottom: 0px;
+	padding-left: 5px;
+	padding-right: 2px;
+	border: 2px solid grey;
+	position: absolute;
+	left: 50%;
+	transform: translate(-50%, 0);
+	z-index: 1;
+}

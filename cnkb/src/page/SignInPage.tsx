@@ -1,4 +1,4 @@
-import DefaultContainer from '../template/DefaultContainer'
+import DefaultContainer from '../container/DefaultContainer'
 import '../css/Font.css'
 import '../css/SignInPage.css'
 import '../css/common.css'
@@ -8,10 +8,11 @@ import useWindowSize from '../hook/Window'
 import { useState, useEffect } from 'react'
 import { signInWithRedirect, getRedirectResult } from "firebase/auth"
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
-import { CommonLoader, auth, provider, getData, setData } from '../util/config'
+import { auth, provider, getData, setData } from '../util/config'
 import { signIn } from '../api/UserApi'
 import React from "react"
 import { Redirect } from 'react-router-dom'
+import LoadingBar from '../component/LoadingBar'
 
 const SignInPage = () => {
     const { height, width } = useWindowSize()
@@ -60,24 +61,22 @@ const SignInPage = () => {
                 <div id="FontBold" className="sign-in-title">
                     <img src={Logo} alt="logo" width={logoSize} />
                     <div className="center">
-                        <CommonLoader>
-                            {{
-                                flag: loading,
-                                size: logoSize / 5,
-                                element: (
-                                    <button className="commonButton">
-                                        <img src={GoogleSignIn} key={GoogleSignIn} alt="signIn"
-                                            onClick={() => {
-                                                setLoading(true)
-                                                signInWithRedirect(auth, provider)
-                                            }}
-                                            width={logoSize / 1.5}
-                                        >
-                                        </img>
-                                    </button>
-                                )
-                            }}
-                        </CommonLoader>
+                        <LoadingBar
+                            flag={loading}
+                            size={logoSize / 5}
+                            element={(
+                                <button className="commonButton">
+                                    <img src={GoogleSignIn} key={GoogleSignIn} alt="signIn"
+                                        onClick={() => {
+                                            setLoading(true)
+                                            signInWithRedirect(auth, provider)
+                                        }}
+                                        width={logoSize / 1.5}
+                                    >
+                                    </img>
+                                </button>
+                            )}
+                        />
                     </div>
                 </div>
             </DefaultContainer>

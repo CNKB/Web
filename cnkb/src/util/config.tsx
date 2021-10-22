@@ -1,5 +1,4 @@
 import { initializeApp } from "firebase/app"
-import Loader from "react-loader-spinner"
 import axios from 'axios'
 import { getAuth, GoogleAuthProvider } from "firebase/auth"
 
@@ -54,24 +53,6 @@ export let getInstance = (token?: string | null, header?: any) => {
 	}
 
 	return instance
-}
-
-export const CommonLoader = ({children}: any) => {
-	return <>
-		{
-			children.flag ? (
-				<Loader type="Oval"
-					color="grey"
-					width={children.size}
-					height={children.size}
-				/>
-			) : (
-				<>
-					{children.element}
-				</>
-			)
-		}
-	</>
 }
 
 export const setData = (key: string, value: string) => {

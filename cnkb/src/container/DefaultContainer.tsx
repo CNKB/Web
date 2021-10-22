@@ -11,7 +11,8 @@ const DefaultContainer = ({children}: any) => {
 		left: "50%",
 		transform: "translate(-50%, 0)",
 		whiteSpace: "nowrap",
-		fontSize: height * 0.012 + width * 0.008
+		fontSize: height * 0.014 + width * 0.005,
+		verticalAlign: "bottom"
 	}
 
 	return (
