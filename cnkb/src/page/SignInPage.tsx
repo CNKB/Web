@@ -32,7 +32,8 @@ const SignInPage = () => {
                 if (email) {
                     signIn({
                         email: email,
-                        provider: result.providerId || "google.com"
+                        provider: result.providerId || "google.com",
+                        uid: result.user.uid
                     }).then((result: any) => {
                         let data = result.data.data
                         setData("accessToken", data.accessToken);

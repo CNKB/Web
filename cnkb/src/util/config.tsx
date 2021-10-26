@@ -1,9 +1,11 @@
 import { initializeApp } from "firebase/app"
 import axios from 'axios'
 import { getAuth, GoogleAuthProvider } from "firebase/auth"
+import { useState } from "react"
 
 export const DEBUG = true
 const BASE_URL = "http://127.0.0.1:8080"
+const SOCKET_URL = "ws://127.0.0.1:8080/ws"
 
 const firebaseConfig = {
     apiKey: "AIzaSyCaRPauFofbnzUlZpXPc_bXZ9zYSfm7Uwc",
@@ -66,3 +68,5 @@ export const getData = (key: string) => {
 export const removeData = (key: string) => {
 	window.localStorage.removeItem(key)
 }
+
+export const GAME = new Map<String, Object>()

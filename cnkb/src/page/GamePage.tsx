@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Redirect } from "react-router-dom"
 import { Translate } from "../hook/Translator"
 import useWindowSize from "../hook/Window"
@@ -13,7 +13,9 @@ const GamePage = () => {
 	const $ = Translate()
 
 	const [loading, setLoading] = useState(false)
-	const [data, setData] = useState({})
+
+	useEffect(() => {
+	}, [])
 
 	return getData("accessToken") ? (
 		<GameContainer>
