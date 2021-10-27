@@ -8,8 +8,7 @@ import useWindowSize from '../hook/Window'
 import { useState, useEffect } from 'react'
 import { signInWithRedirect, getRedirectResult } from "firebase/auth"
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
-import { auth, provider, getData, setData } from '../util/config'
-import { signIn } from '../api/UserApi'
+import { auth, provider, getData, setData, getInstance } from '../util/config'
 import React from "react"
 import { Redirect } from 'react-router-dom'
 import LoadingBar from '../component/LoadingBar'
@@ -30,11 +29,14 @@ const SignInPage = () => {
                 let email = result.user.email
 
                 if (email) {
-                    signIn({
-                        email: email,
-                        provider: result.providerId || "google.com",
-                        uid: result.user.uid
-                    }).then((result: any) => {
+                    getInstance().post(
+                        "/user/sign-in",
+                        {
+                            email: email,
+                            provider: result.providerId || "google.com",
+                            uid: result.user.uid
+                        }
+                    ).then((result: any) => {
                         let data = result.data.data
                         setData("accessToken", data.accessToken);
                         setData("refreshToken", data.refreshToken);

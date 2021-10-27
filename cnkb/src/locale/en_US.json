@@ -1,6 +1,10 @@
 {
 	"translation": {
 		"slot.empty": "Empty Slot",
-		"last_played": "Last Played"
+		"last_played": "Last Played",
+		"prompt.nickname": "Please enter your nickname",
+		"error.nickname.length": "Nickname's length must be {0} ~ {1}",
+		"error.nickname.regex": "Nickname contains non-allowed special characters\nChanged: {0}",
+		"error.nickname.word": "Nickname contains bad word\nDetected: {0}"
 	}
 }

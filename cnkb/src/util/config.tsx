@@ -1,11 +1,10 @@
 import { initializeApp } from "firebase/app"
 import axios from 'axios'
 import { getAuth, GoogleAuthProvider } from "firebase/auth"
-import { useState } from "react"
 
 export const DEBUG = true
+export const SOCKET_URL = "ws://127.0.0.1:8080/ws"
 const BASE_URL = "http://127.0.0.1:8080"
-const SOCKET_URL = "ws://127.0.0.1:8080/ws"
 
 const firebaseConfig = {
     apiKey: "AIzaSyCaRPauFofbnzUlZpXPc_bXZ9zYSfm7Uwc",
@@ -55,6 +54,19 @@ export let getInstance = (token?: string | null, header?: any) => {
 	}
 
 	return instance
+}
+
+export let getSocketData = (request: string, data?: {}) => {
+	let output = {
+		playerId: GAME.get("playerId"),
+		request: request,
+		data: {
+			token: getData("accessToken"),
+			...data
+		}
+	}
+
+	return JSON.stringify(output)
 }
 
 export const setData = (key: string, value: string) => {

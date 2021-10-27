@@ -4,11 +4,10 @@ import "../css/LobbyPage.css"
 import "../css/Font.css";
 import { useEffect, useState } from "react";
 import useWindowSize from "../hook/Window";
-import { GAME, getData } from "../util/config";
-import { getPlayers } from "../api/UserApi";
+import { GAME, getData, getInstance } from "../util/config";
 import { Translate } from "../hook/Translator";
 import LoadingBar from "../component/LoadingBar";
-import { createPlayer } from "../api/PlayerApi";
+import handleToken from "../util/tokenHandler";
 
 const LobbyPage = () => {
 	const { height, width } = useWindowSize()
@@ -21,29 +20,53 @@ const LobbyPage = () => {
 		let accessToken = getData("accessToken");
 
 		if (accessToken) {
-			getPlayers().then((result: any) => {
-				setPlayers(result.data.data);
-				setLoading(false);
+			handleToken({
+				instance: getInstance(getData("accessToken")),
+				method: "get",
+				path: "/user/players/t",
+				then: (result: any) => {
+					setPlayers(result.data.data)
+				}
 			})
+
+			setLoading(false)
 		}
 	}, [])
 
 	function onEmptyClick() {
-		setLoading(true)
-
-		let name = prompt($("prompt.name"))
+		let name = prompt($("prompt.nickname"))
 		if(!name) {
 			return
 		}
+		
+		setLoading(true)
 
-		createPlayer({
-			name: name
-		}).then(result => {
-			GAME.set("playerId", Number(result.data.data))
-		}).catch(error => {
-			let {status, message} = error
+		handleToken({
+			instance: getInstance(getData("accessToken")),
+			method: "post",
+			path: "/player/create-player/t",
+			body: {
+				name: name
+			},
+			then: (result: any) => {
+				GAME.set("playerId", Number(result.data.data))
+			},
+			onError: (error => {
+				let {status, message} = error
 
-			//TODO
+				if(status === 406) {
+					if(message.startsWith("Invalid length")) {
+						alert($("error.nickname.length", message.substr(17).split(",")))
+					} else if(message.startsWith("Invalid regex")) {
+						alert($("error.nickname.regex", [message.substr(16)]))
+					} else if(message.startsWith("Invalid word")) {
+						alert($("error.nickname.word", [message.substr(15)]))
+					}
+				}
+
+				setLoading(false)
+				return;
+			})
 		})
 
 		return (
@@ -52,6 +75,7 @@ const LobbyPage = () => {
 	}
 
 	function onPlayerClick() {
+		//TODO
 		setLoading(true)
 	}
 
@@ -77,9 +101,10 @@ const LobbyPage = () => {
 												marginTop: height / 50,
 												marginBottom: height / 50
 											}}
+											onClick={player.lv ? onPlayerClick : onEmptyClick}
 										>
 											{player.lv ? (
-												<span onClick={onPlayerClick}>
+												<span>
 													<span id="FontRegular"
 														style={{
 															fontSize: width / 80 + height / 100,
@@ -105,7 +130,6 @@ const LobbyPage = () => {
 													style={{
 														fontSize: width / 50 + height / 75
 													}}
-													onClick={onEmptyClick}
 												>
 													{$("slot.empty")}
 												</span>

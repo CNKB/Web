@@ -3,7 +3,7 @@ import { Redirect } from "react-router-dom"
 import { Translate } from "../hook/Translator"
 import useWindowSize from "../hook/Window"
 import GameContainer from "../container/GameContainer"
-import { getData, setData } from "../util/config"
+import { SOCKET_URL, getData, getSocketData } from "../util/config"
 import LoadingBar from "../component/LoadingBar"
 import Sidebar from "../component/Sidebar"
 import "../css/GamePage.css"
@@ -12,9 +12,17 @@ const GamePage = () => {
 	const { height, width } = useWindowSize()
 	const $ = Translate()
 
+	const socket = new WebSocket(`${SOCKET_URL}`)
+	socket.onopen = () => {
+		socket.send(
+			getSocketData("connect")
+		)
+	}
+
 	const [loading, setLoading] = useState(false)
 
 	useEffect(() => {
+		
 	}, [])
 
 	return getData("accessToken") ? (
