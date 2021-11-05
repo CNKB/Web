@@ -10,7 +10,7 @@ interface Prop {
 const Sidebar = ({element}: Prop) => {
 	const { height, width } = useWindowSize()
 
-	const [leftSidePos, setLeftSidePos] = useState(-200)
+	const [leftSidePos, setLeftSidePos] = useState(Math.max(200, width * 0.11) * -1 + 15);
 	const [background, setBackground] = useState("grey")
 	const [enable, setEnable] = useState(true)
 	const [sidebarSize, setSidebarSize] = useState(0)
@@ -19,12 +19,6 @@ const Sidebar = ({element}: Prop) => {
 		let max = Math.max(200, width * 0.11)
 		setSidebarSize(max)
 	}, [width, height])
-
-	useEffect(() => {
-		let max = Math.max(200, width * 0.11)
-		setSidebarSize(max)
-		setLeftSidePos(max * -1 + 15)
-	}, [])
 
 	function toggle() {
 		if(!enable) {

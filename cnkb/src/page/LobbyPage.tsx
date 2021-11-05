@@ -1,10 +1,10 @@
-import { Redirect } from "react-router-dom"
+import { Redirect, useHistory } from "react-router-dom"
 import GameContainer from "../container/GameContainer";
 import "../css/LobbyPage.css"
 import "../css/Font.css";
 import { useEffect, useState } from "react";
 import useWindowSize from "../hook/Window";
-import { GAME, getData, getInstance } from "../util/config";
+import { getData, getInstance, setData } from "../util/config";
 import { Translate } from "../hook/Translator";
 import LoadingBar from "../component/LoadingBar";
 import handleToken from "../util/tokenHandler";
@@ -15,6 +15,8 @@ const LobbyPage = () => {
 	
 	const [loading, setLoading] = useState(true)
 	const [players, setPlayers] = useState<any[]>([])
+
+	const history = useHistory()
 
 	useEffect(() => {
 		let accessToken = getData("accessToken");
@@ -49,7 +51,7 @@ const LobbyPage = () => {
 				name: name
 			},
 			then: (result: any) => {
-				GAME.set("playerId", Number(result.data.data))
+				setData("playerId", String(result.data.data));
 			},
 			onError: (error => {
 				let {status, message} = error
@@ -69,14 +71,12 @@ const LobbyPage = () => {
 			})
 		})
 
-		return (
-			<Redirect to="/game"/>
-		)
+		history.push("/game")
 	}
 
-	function onPlayerClick() {
-		//TODO
-		setLoading(true)
+	function onPlayerClick(id: number) {
+		setData("playerId", String(id))
+		history.push("/game")
 	}
 
 	return getData("accessToken") ? (
@@ -86,12 +86,11 @@ const LobbyPage = () => {
 					flag={loading}
 					size={(height * 0.22 + width * 0.17) / 5}
 					element={(
-						<div>
+						<>
 							{
 								players.map((player, index) => {
 									return (
-										<button
-											className="commonButton"
+										<button className="commonButton"
 											key={index}
 											style={{
 												width: width / 2 + 50,
@@ -101,9 +100,9 @@ const LobbyPage = () => {
 												marginTop: height / 50,
 												marginBottom: height / 50
 											}}
-											onClick={player.lv ? onPlayerClick : onEmptyClick}
+											onClick={player.id ? () => onPlayerClick(player.id) : onEmptyClick}
 										>
-											{player.lv ? (
+											{player.id ? (
 												<span>
 													<span id="FontRegular"
 														style={{
@@ -138,7 +137,7 @@ const LobbyPage = () => {
 									);
 								})
 							}
-						</div>
+						</>
 					)}
 				/>
 			</div>

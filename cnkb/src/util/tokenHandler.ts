@@ -16,8 +16,6 @@ const refreshToken = (error: any, args: Prop): boolean => {
 	let { status } = error;
 
 	if(status === 401) {
-		console.log(args.refreshed)
-
 		if(args.refreshed) {
 			return false
 		}
@@ -60,7 +58,7 @@ const handleToken = (args: Prop) => {
 
 	args.refreshed = args.refreshed || false
 
-	switch(args.method) {
+	switch(method) {
 	case "get":
 		instance.get(path)
 			.then(result => then(result))

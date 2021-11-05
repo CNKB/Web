@@ -58,10 +58,10 @@ export let getInstance = (token?: string | null, header?: any) => {
 
 export let getSocketData = (request: string, data?: {}) => {
 	let output = {
-		playerId: GAME.get("playerId"),
+		playerId: Number(getData("playerId")),
 		request: request,
+		accessToken: getData("accessToken"),
 		data: {
-			token: getData("accessToken"),
 			...data
 		}
 	}
@@ -80,5 +80,3 @@ export const getData = (key: string) => {
 export const removeData = (key: string) => {
 	window.localStorage.removeItem(key)
 }
-
-export const GAME = new Map<String, Object>()
