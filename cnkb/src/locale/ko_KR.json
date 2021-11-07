@@ -1,8 +1,9 @@
 {
 	"translation": {
 		"slot.empty": "빈 슬롯",
-		"last_played": "최근 접속",
+		"lastPlayed": "최근 접속",
 		"prompt.nickname": "사용할 닉네임을 입력해주세요",
+		"alert.serverError": "서버에 에러가 발생했습니다\n데이터 보존을 위해 가급적 플레이를 자제해주세요",
 		"error.nickname.length": "닉네임의 길이는 {0} ~ {1} 글자여야 합니다",
 		"error.nickname.regex": "닉네임에 허용되지 않는 특수 문자가 포함되어 있습니다\n정상 닉네임: {0}",
 		"error.nickname.word": "닉네임에 욕설이 포함되어 있습니다\n감지된 욕설: {0}"

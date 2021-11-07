@@ -12,33 +12,35 @@ import { useBeforeunload } from "react-beforeunload";
 
 interface Response {
 	status: number,
+	request: string,
 	message: string,
 	data: {}
 }
 
 const GamePage = () => {
+	const DATA = new Map<String, Response>()
+
 	const { height, width } = useWindowSize()
 	const $ = Translate()
 
 	const [loading, setLoading] = useState(true)
 	const [opened, setOpened] = useState(false)
-	const [response, setResponse] = useState<Response>({
-		status: 0,
-		message: "",
-		data: {},
-	});
 	
 	const socket = new WebSocket(`${SOCKET_URL}`);
 	socket.onopen = () => {
 		setOpened(true)
 	}
 	socket.onmessage = (event) => {
-		setResponse(JSON.parse(event.data));
+		const data: Response = JSON.parse(event.data);
+
+		if(data.status === 500) {
+			alert($("alert.serverError"))
+		} else {
+			DATA.set(data.request, data)
+		}
 	};
 
-	useBeforeunload((event) => {
-		event.preventDefault()
-
+	useBeforeunload(() => {
 		if(socket.readyState === socket.OPEN) {
 			socket.send(getSocketData("disconnect"))
 			socket.close()
@@ -50,10 +52,17 @@ const GamePage = () => {
 		connect = setInterval(() => {
 			if (socket.readyState === socket.OPEN) {
 				socket.send(getSocketData("connect"));
+				socket.send(getSocketData("getUI"))
 				clearInterval(connect);
+
+				setLoading(false)
 			}
-		}, 1000);
+		}, 100);
 	}, [])
+
+	useEffect(() => {
+		console.log(DATA)
+	}, [DATA.get("getUI")])
 
 	return getData("accessToken") ? (
 		<GameContainer>

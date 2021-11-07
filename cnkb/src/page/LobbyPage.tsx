@@ -121,7 +121,7 @@ const LobbyPage = () => {
 															color: "#b5b5b5"
 														}}
 													>
-														{$("last_played")}: {player.lastPlayed}
+														{$("lastPlayed")}: {player.lastPlayed}
 													</span>
 												</span>
 											) : (
