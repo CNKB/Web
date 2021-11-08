@@ -5,38 +5,47 @@ import useWindowSize from "../hook/Window"
 import GameContainer from "../container/GameContainer"
 import { SOCKET_URL, getData, getSocketData } from "../util/config"
 import LoadingBar from "../component/LoadingBar"
-import Sidebar from "../component/Sidebar"
 import "../css/GamePage.css"
 import "../css/common.css"
 import { useBeforeunload } from "react-beforeunload";
+import Service from "../api/Service"
+import Response from "../api/Response"
+import GameBoard from "../component/GameBoard"
 
-interface Response {
-	status: number,
-	request: string,
-	message: string,
-	data: {}
-}
+const serviceList = new Map<String, Service>()
 
 const GamePage = () => {
-	const DATA = new Map<String, Response>()
-
 	const { height, width } = useWindowSize()
 	const $ = Translate()
 
+	const [added, setAdded] = useState<string[]>([]);
+	const [Data, setData] = useState(new Map<string, Response>());
 	const [loading, setLoading] = useState(true)
-	const [opened, setOpened] = useState(false)
+	const [component, setComponent] = useState(<></>);
+	const [sidebarComponent, setSidebarComponent] = useState(<></>)
+
+	const addData = (key: string, value: Response) => {
+		setData((prev) => new Map(prev).set(key, value));
+	}
+
+	const removeAdded = (key: string) => {
+		const index = added.indexOf(key, 0);
+		if (index > -1) {
+			added.splice(index, 1);
+		}
+	}
 	
 	const socket = new WebSocket(`${SOCKET_URL}`);
-	socket.onopen = () => {
-		setOpened(true)
-	}
 	socket.onmessage = (event) => {
 		const data: Response = JSON.parse(event.data);
 
 		if(data.status === 500) {
 			alert($("alert.serverError"))
 		} else {
-			DATA.set(data.request, data)
+			let request = data.request
+
+			addData(request, data);
+			setAdded([...added, request]);
 		}
 	};
 
@@ -47,9 +56,8 @@ const GamePage = () => {
 		}
 	})
 
-	let connect: NodeJS.Timeout
 	useEffect(() => {
-		connect = setInterval(() => {
+		let connect = setInterval(() => {
 			if (socket.readyState === socket.OPEN) {
 				socket.send(getSocketData("connect"));
 				socket.send(getSocketData("getUI"))
@@ -61,8 +69,24 @@ const GamePage = () => {
 	}, [])
 
 	useEffect(() => {
-		console.log(DATA)
-	}, [DATA.get("getUI")])
+		for (let request of added) {
+			console.log("Checked - " + request)
+
+			let service = serviceList.get(request);
+			let response = Data.get(request)
+
+			if (response) {
+				service?.handleData(
+					response,
+					setLoading,
+					setComponent,
+					setSidebarComponent,
+				);
+			}
+			
+			removeAdded(request)
+		}
+	}, [added]);
 
 	return getData("accessToken") ? (
 		<GameContainer>
@@ -76,23 +100,7 @@ const GamePage = () => {
 							width: width * 0.985,
 							height: height * 0.803
 						}}>
-							<Sidebar
-								element={
-									<>
-										<div>a</div>
-										<div>b</div>
-										<div>c</div>
-									</>
-								}
-							/>
-							<div id="FontRegular" className="panel"
-								style={{
-									width: Math.min(width - 75, 1000),
-									height: height * 0.8
-								}}
-							>
-								abcd
-							</div>						
+							<GameBoard component={component} sidebarComponent={sidebarComponent}/>
 						</div>
 					)}
 				/>
