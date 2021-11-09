@@ -6,6 +6,9 @@
 		"alert.serverError": "An error has occurred in the server\nPlease refrain from playing to preserve your data",
 		"error.nickname.length": "Nickname's length must be {0} ~ {1}",
 		"error.nickname.regex": "Nickname contains non-allowed special characters\nChanged: {0}",
-		"error.nickname.word": "Nickname contains bad word\nDetected: {0}"
+		"error.nickname.word": "Nickname contains bad word\nDetected: {0}",
+		"game.mine": "[Mining]",
+		"game.mine.mineLv": "Mining Lv",
+		"game.mine.mine": "Start Mining"
 	}
 }

@@ -3,8 +3,8 @@ import axios from 'axios'
 import { getAuth, GoogleAuthProvider } from "firebase/auth"
 
 export const DEBUG = true
-export const SOCKET_URL = "ws://127.0.0.1:8080/ws"
-const BASE_URL = "http://127.0.0.1:8080"
+export const SOCKET_URL = "ws://namsic.iptime.org:8080/ws"
+const BASE_URL = "http://namsic.iptime.org:8080";
 
 const firebaseConfig = {
     apiKey: "AIzaSyCaRPauFofbnzUlZpXPc_bXZ9zYSfm7Uwc",
@@ -66,7 +66,7 @@ export let getSocketData = (request: string, data?: {}) => {
 		}
 	}
 
-	return JSON.stringify(output)
+	return output
 }
 
 export const setData = (key: string, value: string) => {

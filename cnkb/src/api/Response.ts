@@ -2,7 +2,7 @@ interface Response {
 	status: number;
 	request: string;
 	message: string;
-	data: {};
+	data: any
 }
 
 export default Response
