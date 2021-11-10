@@ -23,16 +23,17 @@ const LobbyPage = () => {
 
 		if (accessToken) {
 			handleToken({
+				$: $,
 				instance: getInstance(getData("accessToken")),
 				method: "get",
 				path: "/user/players/t",
 				then: (result: any) => {
 					setPlayers(result.data.data)
+					setLoading(false);
 				}
 			})
-
-			setLoading(false)
 		}
+		// eslint-disable-next-line
 	}, [])
 
 	function onEmptyClick() {
@@ -44,6 +45,7 @@ const LobbyPage = () => {
 		setLoading(true)
 
 		handleToken({
+			$: $,
 			instance: getInstance(getData("accessToken")),
 			method: "post",
 			path: "/player/create-player/t",

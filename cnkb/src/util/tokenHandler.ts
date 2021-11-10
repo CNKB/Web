@@ -1,15 +1,16 @@
 import { getData, getInstance, removeData, setData } from "./config";
-import { AxiosInstance, AxiosResponse } from "axios"
+import { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios"
 import render from "..";
 
 interface Prop {
-	instance: AxiosInstance,
-	method: string,
-	path: string,
-	body?: {},
-	then?: (result: AxiosResponse<unknown, any>) => void,
-	onError?: (error: any) => void,
-	refreshed?: boolean
+	$: (key: string, data?: string[] | undefined) => string;
+	instance: AxiosInstance;
+	method: string;
+	path: string;
+	body?: {};
+	then?: (result: AxiosResponse<unknown, any>) => void;
+	onError?: (error: any) => void;
+	refreshed?: boolean;
 }
 
 const refreshToken = (error: any, args: Prop): boolean => {
@@ -49,8 +50,12 @@ const refreshToken = (error: any, args: Prop): boolean => {
 	return true
 }
 
+const apiConfig: AxiosRequestConfig = {
+	timeout: 5000
+}
+
 const handleToken = (args: Prop) => {
-	const {instance, method, path} = args;
+	const {$, instance, method, path} = args;
 	
 	const body = args.body = args.body || {}
 	const then = args.then = args.then || (() => {})
@@ -60,10 +65,20 @@ const handleToken = (args: Prop) => {
 
 	switch(method) {
 	case "get":
-		instance.get(path)
+		instance.get(path, apiConfig)
 			.then(result => then(result))
 			.catch(error => {
-				let errorData = error.response.data
+				let errorData = error.response?.data
+
+				if(!errorData) {
+					alert($("alert.serverClose"))
+
+					removeData("accessToken")
+					removeData("refreshToken")
+
+					render()
+					return
+				}
 
 				if(refreshToken(errorData, args)) {
 					onError(errorData)
@@ -73,7 +88,7 @@ const handleToken = (args: Prop) => {
 		break
 
 	case "post":
-		instance.post(path, body)
+		instance.post(path, body, apiConfig)
 			.then(result => then(result))
 			.catch(error => {
 				let errorData = error.response.data

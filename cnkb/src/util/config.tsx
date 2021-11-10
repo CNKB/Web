@@ -80,3 +80,8 @@ export const getData = (key: string) => {
 export const removeData = (key: string) => {
 	window.localStorage.removeItem(key)
 }
+
+export enum UI_TYPE {
+	"button",
+	"upDownButton"
+}

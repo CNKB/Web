@@ -15,6 +15,7 @@ import render from ".."
 import GameSidebar from "../component/GameSidebar"
 
 const serviceList = new Map<String, Service>()
+const socket = new WebSocket(`${SOCKET_URL}`);
 
 const GamePage = () => {
 	const { height, width } = useWindowSize()
@@ -38,8 +39,6 @@ const GamePage = () => {
 		}
 	}
 
-	let socket: WebSocket;
-
 	const send = (socketData: any) => {
 		let stringified = JSON.stringify(socketData);
 		sent.set(socketData.request, stringified);
@@ -47,9 +46,6 @@ const GamePage = () => {
 	};
 
 	useEffect(() => {
-		// eslint-disable-next-line
-		socket = new WebSocket(`${SOCKET_URL}`);
-
 		socket.onmessage = (event) => {
 			const data: Response = JSON.parse(event.data);
 
@@ -93,6 +89,8 @@ const GamePage = () => {
 				setLoading(false);
 			}
 		}, 100);
+
+		// eslint-disable-next-line
 	}, [])
 
 	useBeforeunload(() => {
