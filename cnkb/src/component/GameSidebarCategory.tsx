@@ -6,18 +6,18 @@ import GameSidebarInnerUpDownButton from "./GameSidebarInnerUpDownButton";
 
 interface Prop {
 	keyValue: string,
-	buttonStyle: CSSProperties,
+	style: CSSProperties,
 	categoryButtonFlag: boolean,
 	UI: any,
 	UIData: Map<string, any>,
 	onCategoryClick: (keyValue: string) => void,
-	setUICategoryData: (innerKey: string, defaultValue: any) => void
+	setUIData: (innerKey: string, value: any) => void
 }
 
 const GameSidebarCategory = (
 	{
-		keyValue, buttonStyle, categoryButtonFlag, UI,
-		UIData, onCategoryClick, setUICategoryData
+		keyValue, style, categoryButtonFlag, UI,
+		UIData, onCategoryClick, setUIData
 	}: Prop) => {
 		
 	useEffect(() => {
@@ -26,7 +26,7 @@ const GameSidebarCategory = (
 				const data = UI[keyValue][innerKey];
 
 				if (data.type === UI_TYPE.upDownButton)  {
-					setUICategoryData(innerKey, data.default)
+					setUIData(innerKey, data.default)
 				}
 			})
 		})
@@ -38,7 +38,7 @@ const GameSidebarCategory = (
 		<>
 			<GameSidebarCategoryButton
 				keyValue={keyValue}
-				buttonStyle={buttonStyle}
+				buttonStyle={style}
 				onCategoryClick={onCategoryClick}
 			/>
 			{categoryButtonFlag ? (
@@ -53,16 +53,26 @@ const GameSidebarCategory = (
 									<GameSidebarInnerButton
 										key={innerIndex}
 										innerKey={innerKey}
-										buttonStyle={buttonStyle}
+										style={style}
 										onClick={data.onClick}
 									/>
 								);
 							} else if (data.type === UI_TYPE.upDownButton) {
 								output = (
-									<div key={innerIndex}>
+									<div
+										key={innerIndex}
+										style={{
+											...style,
+											display: "inline-block",
+											fontSize: "102%",
+											marginLeft: "15px",
+											padding: "2px"
+										}}
+									>
 										<GameSidebarInnerUpDownButton
 											innerKey={innerKey}
-											value={UIData.get(innerKey)}
+											UIData={UIData}
+											setUIData={setUIData}
 											min={data.min}
 											max={data.max}
 										/>

@@ -3,11 +3,11 @@ import { Translate } from "../hook/Translator";
 
 interface Prop {
 	innerKey: string,
-	buttonStyle: CSSProperties,
+	style: CSSProperties,
 	onClick: () => void
 }
 
-const GameSidebarInnerButton = ({innerKey, buttonStyle, onClick}: Prop) => {
+const GameSidebarInnerButton = ({innerKey, style: buttonStyle, onClick}: Prop) => {
 	const $ = Translate()
 
 	return (
@@ -16,8 +16,8 @@ const GameSidebarInnerButton = ({innerKey, buttonStyle, onClick}: Prop) => {
 			className="commonButton"
 			style={{
 				...buttonStyle,
-				fontSize:
-					"100%",
+				fontSize: "100%",
+				marginLeft: "15px"
 			}}
 			onClick={(event) => {
 				event.stopPropagation();

@@ -21,7 +21,6 @@ const GameSidebar = ({ send }: Prop) => {
 			}
 
 			const map = new Map(prev).set(key, value)
-			console.log("GetData: " + UIData.get(key) + ", Map: " + JSON.stringify(Array.from(map.entries())))
 			return map
 		})
 	}
@@ -49,15 +48,15 @@ const GameSidebar = ({ send }: Prop) => {
 		}
 	}
 
-	const buttonStyle: CSSProperties = {
+	const style: CSSProperties = {
 		color: "white",
 		backgroundColor: "#111111",
 		border: "2px solid grey",
-		marginTop: "5px",
+		marginTop: "5px"
 	};
 
-	const setUICategoryData = (innerKey: string, defaultValue: any) => {
-		setMap(innerKey, defaultValue, setUIData)
+	const setUIDataReact = (innerKey: string, value: any) => {
+		setMap(innerKey, value, setUIData)
 	}
 
 	return (
@@ -69,12 +68,12 @@ const GameSidebar = ({ send }: Prop) => {
 							<div key={index}>
 								<GameSidebarCategory
 									keyValue={keyValue}
-									buttonStyle={buttonStyle}
+									style={style}
 									categoryButtonFlag={componentFlag.get(keyValue) as boolean}
 									UI={UI}
 									UIData={UIData}
 									onCategoryClick={onCategoryClick}
-									setUICategoryData={setUICategoryData}
+									setUIData={setUIDataReact}
 								/>
 							</div>
 						);
