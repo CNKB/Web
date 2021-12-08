@@ -1,7 +1,7 @@
 import DefaultContainer from '../container/DefaultContainer'
 import '../css/Font.css'
 import '../css/SignInPage.css'
-import '../css/common.css'
+import '../css/Common.css'
 import Logo from "../image/logo.png"
 import GoogleSignIn from "../image/googleSignIn.png"
 import useWindowSize from '../hook/Window'
@@ -9,7 +9,6 @@ import { useState, useEffect } from 'react'
 import { signInWithRedirect, getRedirectResult } from "firebase/auth"
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import { auth, provider, getData, setData, getInstance } from '../util/config'
-import React from "react"
 import { Redirect } from 'react-router-dom'
 import LoadingBar from '../component/LoadingBar'
 

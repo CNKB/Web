@@ -1,12 +1,8 @@
 import Response from "./Response";
+import ServiceProp from "./ServiceProp";
 
 interface Service {
-	handleData(
-		response: Response,
-		$: (key: string, data?: string[] | undefined) => string,
-		setLoading: React.Dispatch<React.SetStateAction<boolean>>,
-		setComponent: React.Dispatch<React.SetStateAction<JSX.Element>>,
-	): void;
+	handleData(props: ServiceProp): void;
 }
 
 export default Service;

@@ -6,16 +6,21 @@ import GameContainer from "../container/GameContainer"
 import { SOCKET_URL, getData, getSocketData, getInstance, removeData, setData } from "../util/config"
 import LoadingBar from "../component/LoadingBar"
 import "../css/GamePage.css"
-import "../css/common.css"
+import "../css/Common.css"
 import { useBeforeunload } from "react-beforeunload";
 import Service from "../api/Service"
 import Response from "../api/Response"
 import GameBoard from "../component/GameBoard"
 import render from ".."
 import GameSidebar from "../component/GameSidebar"
+import ConnectService from "../api/ConnectService"
+import MineService from "../api/MineService"
 
 const serviceList = new Map<String, Service>()
-const socket = new WebSocket(`${SOCKET_URL}`);
+serviceList.set("connect", new ConnectService())
+serviceList.set("mine", new MineService())
+
+const socket = new WebSocket(`${SOCKET_URL}`)
 
 const GamePage = () => {
 	const { height, width } = useWindowSize()
@@ -27,6 +32,8 @@ const GamePage = () => {
 	const [GameData, setGameData] = useState(new Map<string, Response>());
 	const [loading, setLoading] = useState(true)
 	const [component, setComponent] = useState(<></>);
+
+	const board = document.getElementById("board")?.children.item(1)
 
 	const addData = (key: string, value: Response) => {
 		setGameData((prev) => new Map(prev).set(key, value));
@@ -40,13 +47,25 @@ const GamePage = () => {
 	}
 
 	const send = (socketData: any) => {
-		let stringified = JSON.stringify(socketData);
-		sent.set(socketData.request, stringified);
-		socket.send(stringified);
+		if(socket.readyState === socket.OPEN) {
+			let stringified = JSON.stringify(socketData);
+			sent.set(socketData.request, stringified);
+			socket.send(stringified);
+		}
 	};
+
+	const addMessage = (message: string) => {
+		setComponent(
+			<>
+				{component}
+				<div style={{ margin: "5px" }}>{message}</div>
+			</>
+		)
+	}
 
 	useEffect(() => {
 		socket.onmessage = (event) => {
+			console.log(event.data)
 			const data: Response = JSON.parse(event.data);
 
 			if (data.status === 500) {
@@ -73,6 +92,8 @@ const GamePage = () => {
 						alert("세션이 만료되었습니다.\n다시 로그인해주세요");
 						render();
 					});
+			} else if (data.status === 412) {
+				alert(`클라이언트 오류가 발생했습니다\n관리자에게 문의해주세요\n에러 코드: ${data.status}`)
 			} else {
 				let request = data.request;
 
@@ -80,6 +101,10 @@ const GamePage = () => {
 				setAdded([...added, request]);
 			}
 		};
+
+		socket.onclose = (event) => {
+			console.log(`${event.code} - ${event.reason}`)
+		}
 
 		let connect = setInterval(() => {
 			if (socket.readyState === socket.OPEN) {
@@ -105,13 +130,17 @@ const GamePage = () => {
 			let service = serviceList.get(request);
 			let response = GameData.get(request);
 
+			if(!service) {
+				console.log(`Service is null - ${request}`)
+				return;
+			}
+
 			if (response) {
-				service?.handleData(
+				service.handleData({
 					response,
 					$,
-					setLoading,
-					setComponent,
-				);
+					addMessage,
+				});
 			}
 
 			removeAdded(request);
@@ -119,6 +148,14 @@ const GamePage = () => {
 
 		// eslint-disable-next-line
 	}, [added]);
+
+	useEffect(() => {
+		if (board) {
+			board.scrollTop = board.scrollHeight
+		}
+
+		// eslint-disable-next-line
+	}, [component])
 
 	return getData("accessToken") ? (
 		<GameContainer>
@@ -128,6 +165,7 @@ const GamePage = () => {
 					size={(height * 0.22 + width * 0.17) / 3}
 					element={
 						<div
+							id="board"
 							style={{
 								marginTop: "20px",
 								width: width * 0.985,

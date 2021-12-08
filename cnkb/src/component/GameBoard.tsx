@@ -18,6 +18,7 @@ const GameBoard = ({component, sidebarComponent}: Prop) => {
 				style={{
 					width: Math.min(width - 75, 600),
 					height: height * 0.8,
+					overflowY: "auto"
 				}}
 			>
 				{component}

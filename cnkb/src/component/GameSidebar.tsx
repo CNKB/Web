@@ -41,7 +41,7 @@ const GameSidebar = ({ send }: Prop) => {
 				type: UI_TYPE.button,
 				onClick: () => {
 					send(getSocketData("mine", {
-						mineLv: UIData.get("mineLv")
+						mineLv: UIData.get("game.mine.mineLv")
 					}))
 				}
 			}

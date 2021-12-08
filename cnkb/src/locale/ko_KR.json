@@ -2,14 +2,38 @@
 	"translation": {
 		"slot.empty": "빈 슬롯",
 		"lastPlayed": "최근 접속",
+
 		"prompt.nickname": "사용할 닉네임을 입력해주세요",
+
 		"alert.serverError": "서버에 에러가 발생했습니다\n데이터 보존을 위해 가급적 플레이를 자제해주세요",
 		"alert.serverClose": "서버에 연결할 수 없습니다",
+
 		"error.nickname.length": "닉네임의 길이는 {0} ~ {1} 글자여야 합니다",
 		"error.nickname.regex": "닉네임에 허용되지 않는 특수 문자가 포함되어 있습니다\n정상 닉네임: {0}",
 		"error.nickname.word": "닉네임에 욕설이 포함되어 있습니다\n감지된 욕설: {0}",
+
+		"game.version": "현재 게임 버전은 {0} 입니다",
+
 		"game.mine": "[광질]",
 		"game.mine.mineLv": "광질 레벨",
-		"game.mine.mine": "광질하기"
+		"game.mine.mine": "광질하기",
+		
+		"item.stone": "돌",
+		"item.coal": "석탄",
+		"item.quartz": "석영",
+		"item.copper": "구리",
+		"item.tin": "주석",
+		"item.iron": "철",
+		"item.blueStone": "청석",
+		"item.redStone": "적석",
+		"item.silver": "은",
+		"item.hardCoal": "무연탄",
+		"item.titanium": "티타늄",
+		"item.blackQuartz": "흑색 석영",
+		"item.whiteQuartz": "백색 석영",
+		"item.oriharcon": "오리하르콘",
+		"item.yinYangStone": "음양석",
+		"item.aitume": "에이튬",
+		"item.landium": "랜디움"
 	}
 }

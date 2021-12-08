@@ -1,4 +1,4 @@
-import { CSSProperties, useState } from "react";
+import { CSSProperties, useEffect, useState } from "react";
 import { Translate } from "../hook/Translator";
 
 interface Prop {
@@ -12,7 +12,6 @@ interface Prop {
 const GameSidebarInnerUpDownButton = ({innerKey, UIData, min, max, setUIData}: Prop) => {
 	const $ = Translate()
 	const [value, setValue] = useState(UIData.get(innerKey))
-	const disabled = min === max;
 	
 	const innerStyle: CSSProperties = {
 		background: "#222222",
@@ -26,26 +25,27 @@ const GameSidebarInnerUpDownButton = ({innerKey, UIData, min, max, setUIData}: P
 		if(increase) {
 			if (value === max) {
 				setValue(min)
-				setUIData(innerKey, min)
 				return
 			}
 		} else {
 			if (value === min) {
 				setValue(max)
-				setUIData(innerKey, max)
 				return
 			}
 		}
 
 		setValue(increase ? value + 1 : value - 1)
-		setUIData(innerKey, value)
 	}
+
+	useEffect(() => {
+		setUIData(innerKey, value)
+		// eslint-disable-next-line
+	}, [value])
 
 	return (
 		<>
 			<button
 				style={innerStyle}
-				disabled={disabled}
 				onClick={(event) => {
 					event.stopPropagation()
 					onClick(false);
@@ -56,7 +56,6 @@ const GameSidebarInnerUpDownButton = ({innerKey, UIData, min, max, setUIData}: P
 			{` ${$(innerKey)}: ${value} `}
 			<button
 				style={innerStyle}
-				disabled={disabled}
 				onClick={(event) => {
 					event.stopPropagation()
 					onClick(true)

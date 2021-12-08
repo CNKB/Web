@@ -61,9 +61,7 @@ export let getSocketData = (request: string, data?: {}) => {
 		playerId: Number(getData("playerId")),
 		request: request,
 		accessToken: getData("accessToken"),
-		data: {
-			...data
-		}
+		data: data || {}
 	}
 
 	return output
